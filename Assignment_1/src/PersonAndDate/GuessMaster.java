@@ -1,7 +1,6 @@
 package PersonAndDate;
 
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 public class GuessMaster {
     private int numberOfCandidatesEntities = 0;
