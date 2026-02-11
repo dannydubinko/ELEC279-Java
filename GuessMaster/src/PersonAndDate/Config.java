@@ -5,9 +5,8 @@ import java.util.concurrent.TimeUnit;
 public final class Config {
     private Config() {
     }
-
-    private static final int ruleTime = 15; // 15
     private static final int introTime = 7; // 7
+    private static final int ruleTime = 15; // 15
     private static final int gameWaitTime = 2;
 
     public static final String PERSON = """
