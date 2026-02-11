@@ -40,14 +40,14 @@ public class Date {
 
     public Date(DateStructure strDate) {
         String[] splitDate = strDate.value().split("/");
-        
-        this.day = Integer.parseInt(splitDate[0]);
 
-        int monthNumber = Integer.parseInt(splitDate[1]);
+        int monthNumber = Integer.parseInt(splitDate[0]);
         this.month = monthString(monthNumber);
 
+        this.day = Integer.parseInt(splitDate[1]);
+
         this.year = Integer.parseInt(splitDate[2]);
-    
+
     }
 
     public void setDate(int monthInt, int day, int year) {

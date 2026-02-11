@@ -7,7 +7,6 @@ public final class Config {
     }
 
     public static final String PERSON = """
-                                                                        .......
                .------\\ /------.
                |       -       |
                |               |
@@ -27,6 +26,7 @@ public final class Config {
               """;
 
     public static final String INTRO = """
+
             ✨✨✨✨ Welcome to My Guesser Game ✨✨✨✨
 
             I am the GameMaster. My Name is Top Hat Guy.
@@ -42,19 +42,48 @@ public final class Config {
             ruin it for everyone involved 😤.
 
             RULES:
-            1. I Will Give you an entity in the form of Person, Country or Prominent Leader.
-            2. You must guess the date that entity was born.
+            1. I will give you an entity in the form of Person, Country or Prominent Leader.
+            2. You must guess the date that the entity was born.
             3. You may keep trying to guess long as you'd like.
-            4. Type quit or exit to end the game
+            4. Type "quit" or "exit" to end the game.
+            5. Type "new game" if you would like to start over.
             """;
-    public static int waitTime = 1;
 
-    public static void waitSomeTime() {
+    public static final String DATE_FORMAT = """
+            ***** Use the Format *****
+            ***** mm/dd/yyyy *****
+            """;
+
+    public static final String WINNER = """
+            ❕❕❕❕❕ WINNER ❕❕❕❕❕
+
+            Goodjob you Smarty Pants!!!
+            """;
+
+    public static final String LOSER = """
+
+            Oops Incorrect 🙊 🤷
+            Keep Guessing!!
+            """;
+    public static final String LOADING = "Loading ...";
+    public static final String RULES_WARNING = "Read the Rules Please. Im making you wait anyway\n";
+    public static int ruleTime = 15;
+    public static int introTime = 5;
+
+    public static void ruleTime() {
         try {
-            System.out.println("Read the Rules Please. Im making you wait anyway");
-            TimeUnit.SECONDS.sleep(Config.waitTime);
+            TimeUnit.SECONDS.sleep(Config.ruleTime);
             ; // 2000 milliseconds = 2 seconds
-            System.out.println("Goodluck!\n");
+        } catch (InterruptedException e) {
+            // Handle the exception if the sleep is interrupted
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    public static void introTime() {
+        try {
+            TimeUnit.SECONDS.sleep(Config.introTime);
+            ; // 2000 milliseconds = 2 seconds
         } catch (InterruptedException e) {
             // Handle the exception if the sleep is interrupted
             Thread.currentThread().interrupt();
