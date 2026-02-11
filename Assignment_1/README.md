@@ -1,18 +1,34 @@
-## Getting Started
+# 🎩 GuessMaster:
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+> [IMPORTANT]
+> **Please open your terminal as tall as possible to enjoy the full experience!**
 
-## Folder Structure
+---
 
-The workspace contains two folders by default, where:
+A Java-based date guessing game featuring **Top Hat Guy** (just call him Guy).
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+---
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+## 🕹️ Game Controls
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+| Input            | Result                                          |
+| :--------------- | :---------------------------------------------- |
+| **`MM/DD/YYYY`** | Submit a birth date guess (e.g., `07/04/1776`). |
+| **`new game`**   | Resets the round with a brand-new entity.       |
+| **`quit`**       | Ends the current game session.                  |
+| **`exit`**       | Ends the current game session.                  |
 
-## Dependency Management
+---
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+## ℹ️ Essential Info
+
+- **Input Format:** Guesses **must** follow the `MM/DD/YYYY` structure. Any other format will trigger an error message.
+- **Loading Times:** The game includes intentional pauses (up to 15 seconds) during the intro and rules to ensure you have time to meet "Guy."
+- **Case Sensitivity:** Controls are **not** case-sensitive (e.g., `QUIT` works the same as `quit`).
+
+---
+
+## 🛠️ Requirements
+
+- **Java Runtime:** Ensure you have the JDK installed.
+- **Main Class:** Run the game via the `GuessMaster` class.
