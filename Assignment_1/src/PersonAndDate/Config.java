@@ -6,6 +6,10 @@ public final class Config {
     private Config() {
     }
 
+    private static final int ruleTime = 15; // 15
+    private static final int introTime = 7; // 7
+    private static final int gameWaitTime = 2;
+
     public static final String PERSON = """
                .------\\ /------.
                |       -       |
@@ -44,7 +48,7 @@ public final class Config {
             RULES:
             1. I will give you an entity in the form of Person, Country or Prominent Leader.
             2. You must guess the date that the entity was born.
-            3. You may keep trying to guess long as you'd like.
+            3. You may keep trying to guess as long as you'd like.
             4. Type "quit" or "exit" to end the game.
             5. Type "new game" if you would like to start over.
             """;
@@ -55,6 +59,7 @@ public final class Config {
             """;
 
     public static final String WINNER = """
+
             ❕❕❕❕❕ WINNER ❕❕❕❕❕
 
             Goodjob you Smarty Pants!!!
@@ -67,8 +72,6 @@ public final class Config {
             """;
     public static final String LOADING = "Loading ...";
     public static final String RULES_WARNING = "Read the Rules Please. Im making you wait anyway\n";
-    public static int ruleTime = 15;
-    public static int introTime = 5;
 
     public static void ruleTime() {
         try {
@@ -83,6 +86,16 @@ public final class Config {
     public static void introTime() {
         try {
             TimeUnit.SECONDS.sleep(Config.introTime);
+            ; // 2000 milliseconds = 2 seconds
+        } catch (InterruptedException e) {
+            // Handle the exception if the sleep is interrupted
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    public static void gameWaitTime() {
+        try {
+            TimeUnit.SECONDS.sleep(Config.gameWaitTime);
             ; // 2000 milliseconds = 2 seconds
         } catch (InterruptedException e) {
             // Handle the exception if the sleep is interrupted

@@ -6,6 +6,7 @@ import java.util.Scanner;
 public class GuessMaster {
     private int numberOfCandidatesEntities = 0;
     private Entity[] entities = new Entity[10];
+    private Scanner scanner = new Scanner(System.in);
 
     public void addEntity(Entity entity) {
         entities[numberOfCandidatesEntities] = entity;
@@ -33,68 +34,85 @@ public class GuessMaster {
     public void playGame() {
         // Game Variables
         boolean playGame = true;
-        Entity chosenEntity = entities[genRandomInd()];
 
         // Chosen Entity
-        System.out.println("The entity you're guessing is: \n");
-        String name = chosenEntity.getName();
-        System.out.println(Config.DATE_FORMAT);
-
-        Scanner scannerName = new Scanner(System.in);
 
         // Game Logic
         while (playGame) {
-            // print current game information for the User
-            String line = "_".repeat(name.length() + 4); // +4 for the spaces and pipes
-            System.out.println(line);
-            System.out.println("| " + name + " |");
-            System.out.println(line);
+            // Choose a new Entity for the player to guess
+            Entity chosenEntity = entities[genRandomInd()];
+            System.out.println("The entity you're guessing is: \n");
+            String name = chosenEntity.getName();
+            System.out.println(Config.DATE_FORMAT);
 
-            System.out.print("\nGuess: ");
+            boolean signleEntity = true;
 
-            // read User input
-            String dateInput = scannerName.nextLine();
+            // Run the game for the current entity playing
+            while (signleEntity) {
+                // print current game information for the User
+                String line = "_".repeat(name.length() + 4); // +4 for the spaces and pipes
+                System.out.println(line);
+                System.out.println("| " + name + " |");
+                System.out.println(line);
 
-            // If user types "quit" or "exit" then they leave the current session and enter
-            // a new session
-            if (dateInput.equalsIgnoreCase("quit") ||
-                    dateInput.equalsIgnoreCase("exit")) {
-                System.out.println("\nExiting Current Session.");
-                playGame = false;
-            } else if (dateInput.equalsIgnoreCase("new game")) {
-                playGame();
-            } else {
-                // compare guessed date with entity date
-                try {
-                    DateStructure date = new DateStructure(dateInput);
-                    Date chosenDate = new Date(date);
+                System.out.print("\nGuess: ");
 
-                    if (chosenEntity.getBirthDate().equals(chosenDate)) {
-                        System.out.println(Config.WINNER);
+                // read User input
+                String dateInput = this.scanner.nextLine();
 
-                        System.out.println("Would you like to play a new game? Type yes or no");
-                        String answer = scannerName.nextLine();
+                // If user types "quit" or "exit" then they leave the game completly.
+                if (dateInput.equalsIgnoreCase("quit") ||
+                        dateInput.equalsIgnoreCase("exit")) {
+                    System.out.println("\nExiting the Game.");
+                    signleEntity = false;
+                    playGame = false;
 
-                        if (answer.equalsIgnoreCase("yes")) {
-                            continue;
+                    // if the user would like to play a new game they can type "new game"
+                } else if (dateInput.equalsIgnoreCase("new game")) {
+                    System.out.println("\nNEW GAME Started:\n");
+                    signleEntity = false;
+
+                } else {
+                    // compare guessed date with entity date
+                    try {
+                        DateStructure date = new DateStructure(dateInput);
+                        Date inputDate = new Date(date);
+
+                        if (chosenEntity.getBirthDate().equals(inputDate)) {
+                            System.out.println(Config.WINNER);
+
+                            System.out.println("Would you like to play a new game? Type yes or no");
+                            String answer = scanner.nextLine();
+
+                            if (answer.equalsIgnoreCase("yes")) {
+                                signleEntity = false;
+                            } else {
+                                System.out.println("😢");
+                                playGame = false;
+                            }
+
                         } else {
-                            System.out.println("😢");
-                            playGame = false;
+                            System.out.println(Config.LOSER);
+                            if (chosenEntity.getBirthDate().precedes(inputDate)) {
+                                System.out.println("Choose an Earlier Date");
+                            }
+                            if (inputDate.getDay() == chosenEntity.getBirthDate().getDay())
+                                System.out.println("The Date is Correct");
+                            if (inputDate.getMonth() == chosenEntity.getBirthDate().getMonth())
+                                System.out.println("The Month is Correct");
+                            if (inputDate.getYear() == chosenEntity.getBirthDate().getYear())
+                                System.out.println("The Year is Correct");
+
+                            Config.gameWaitTime();
+
                         }
 
-                    } else {
-                        System.out.println(Config.LOSER);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("\nError: " + e.getMessage());
                     }
-
-                } catch (IllegalArgumentException e) {
-                    System.out.println("\nError: " + e.getMessage());
-                    System.out.println("Please try again using the format MM/DD/YYYY.");
                 }
             }
-
         }
-        scannerName.close();
-
     }
 
     public static void main(String[] args) {

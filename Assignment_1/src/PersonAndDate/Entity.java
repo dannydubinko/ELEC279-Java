@@ -13,6 +13,17 @@ public class Entity {
                 born.getYear());
     }
 
+    // copy constructor
+    public Entity(Entity entity) {
+        if (entity == null)// Not a real entity.
+        {
+            System.out.println("Fatal Error.");
+            System.exit(0);
+        }
+        this.name = entity.name;
+        this.born = entity.born;
+    }
+
     public String getName() {
         return this.name;
     }
@@ -22,7 +33,7 @@ public class Entity {
     }
 
     public String toString() {
-        return getName() + ", " + "born on " + getBirthDate();
+        return (name + ", " + "born on " + born);
     }
 
     public boolean equals(Entity entity) {
