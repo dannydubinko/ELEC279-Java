@@ -1,109 +1,70 @@
+import java.util.LinkedList;
+import java.util.List;
 
 public class Inventory {
-	private Guitar guitarArray[];
+	private List<Guitar> guitarList;
+
 	public Inventory() {
-		guitarArray = new Guitar[10];
+		guitarList = new LinkedList<>();
 	}
-	
-	public void addGuitar(String serialNo, double priceSet, String builder, String model, 
-			String type, String topWood, String backWood) 
-	{
-		Guitar guitarObj = new Guitar(serialNo, priceSet, builder, model, type, topWood, backWood);
 
-		
-		int findSpace = insertGuitar();
-		if(findSpace >=0 && findSpace<guitarArray.length) {
-			/*
-			 * If insertGuitar() returns a valid index, then
-			 * you will insert the guitarObj in the guitarArray
-			 * */
-			guitarArray[findSpace] = guitarObj;
-
-		}
+	public void addGuitar(String serialNumber, double price, Builder builder,
+			String model, Type type, Wood backWood, Wood topWood) {
+		// Match GuitarSpec constructor: (builder, model, type, topWood, backWood)
+		GuitarSpec spec = new GuitarSpec(builder, model, type, topWood, backWood);
+		Guitar guitar = new Guitar(serialNumber, price, spec);
+		guitarList.add(guitar);
 	}
-	
-	public int insertGuitar() {
-		
-		/*
-		 * This method returns the index of the smallest index of array which is empty 
-		 * You have to insert new guitar objects into the Array.
-		 * But to insert into the Array, you have to first find out an empty
-		 * space, also need to check that Array has not been full.
-		*/
-		
-		for (int i=0; i < guitarArray.length; i++) {
-			if (guitarArray[i] == null) {
-				return i;
+
+	public List<Guitar> search(GuitarSpec searchSpec) {
+		List<Guitar> matches = new LinkedList<>();
+		for (Guitar guitar : guitarList) {
+			if (guitar.getSpec().matches(searchSpec)) {
+				matches.add(guitar);
 			}
 		}
-		System.out.println("The Inventroy is Full. Cannot add Guitar");
-		return -1;	
+		return matches;
 	}
 
-	public void printInventory(){
-		System.out.println("###### Inventory Start ######");
-		/*
-		 * Print the whole inventory
-		 * */
-		for (Guitar item : guitarArray){
-			if (item != null) {
-				System.out.println(item.getSerialNumber() + " " + item.getPrice() + " "+ item.getModel() + " "+
-					item.getBuilder()+" "+ item.getType()+ " " + item.getTopWood()+ " " + item.getBackWood() + "\n");
-			}
+	public void printInventory() {
+		System.out.println("\n###### Inventory Start ######");
+		for (Guitar item : guitarList) {
+			System.out.println(item);
 		}
-		System.out.println("###### Inventory End ######");
+		System.out.println("###### Inventory End ######\n");
 	}
-	
-	public Guitar searchForGuitar(Guitar key) {
-		Guitar foundItem = null;
-		/*
-		 * Search method to find guitar through all the guitar properties.
-		 * */
-		for (Guitar guitar : guitarArray) {
-			if (guitar.getBuilder().equalsIgnoreCase(key.getBuilder())){
-				if (guitar.getModel().equalsIgnoreCase(key.getModel())){
-					if (guitar.getType().equalsIgnoreCase(key.getType())){
-						if (guitar.getTopWood().equalsIgnoreCase(key.getTopWood())){
-							if (guitar.getBackWood().equalsIgnoreCase(key.getBackWood())){
-								foundItem = guitar;
-								break;
-							}
-						}	
-					}
-				}
-			}
-		}
 
-		return foundItem;
-	}
-	
-	public void findGuitar(Guitar clientWants) {
-		//Here we are searching for a guitar.
-		Guitar item = searchForGuitar(clientWants);
-		
-		//We print what our search method returns
-		if( item == null) {
-			System.out.println("Sorry We dont have anything for you");
-		}else {
-			System.out.print("Here's what we got: ");
-			System.out.println(item.getSerialNumber() + " " + item.getPrice() + " "+ item.getModel() + " "+
-					item.getBuilder()+" "+ item.getType()+ " " + item.getTopWood()+ " " + item.getBackWood());
+	public void printSearchResults(List<Guitar> results) {
+		if (results.isEmpty()) {
+			System.out.println("Sorry, we found no matches.");
+			return;
+		}
+		System.out.println("You might like these guitars:");
+		for (Guitar guitar : results) {
+			GuitarSpec spec = guitar.getSpec();
+			System.out.println("  We have a " + spec.getBuilder() + " " + spec.getModel() +
+					" " + spec.getType() + " guitar for $" + guitar.getPrice());
 		}
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		Inventory invRef = new Inventory();
-		System.out.println("Inventory Size: " + invRef.guitarArray.length); //Print Array Size
-		
-		invRef.addGuitar("X7X 0Y8", 208.99, "FENDER", "AXp", "ELECTRIC", "ALDER", "ALDER");
-		invRef.addGuitar("PCQ 288", 208.99, "FENDER", "AP88", "ELECTRIC", "MAHOGONY", "CANADIAN_MAPLE");
-		invRef.addGuitar("X78 9V5", 208.99, "GIBSON", "Les Paul Standard", "ELECTRIC", "MAHOGONY", "CANADIAN_MAPLE");
-		invRef.addGuitar("X2P 0Z2", 3088.5, "MARTIN", "D-28", "ACOUSTIC", "BRAZILIAN_ROSEWOOD", "SITKA");
-		invRef.printInventory();
-		//Create a search by Client Specification
-		Guitar whatClientLikes = new Guitar("GIBSON", "Les Paul Standard", "ELECTRIC", "MAHOGONY", "CANADIAN_MAPLE");
-		invRef.findGuitar(whatClientLikes);
-	}
+		Inventory inv = new Inventory();
 
+		// Adding Guitars
+		inv.addGuitar("X1X 0Y0", 679.99, Builder.FENDER, "AP88",
+				Type.ELECTRIC, Wood.MAHOGANY, Wood.CANADIAN_MAPLE);
+		inv.addGuitar("X1X 0Y1", 788.99, Builder.FENDER, "AV123",
+				Type.ELECTRIC, Wood.MAHOGANY, Wood.BRAZILIAN_ROSEWOOD);
+		inv.addGuitar("X2P 0Z2", 3088.5, Builder.MARTIN, "D-28",
+				Type.ACOUSTIC, Wood.BRAZILIAN_ROSEWOOD, Wood.SITKA);
+
+		inv.printInventory();
+
+		// Searching: Alex wants a Fender Electric with Mahogany Back
+		// GuitarSpec(builder, model, type, topWood, backWood)
+		GuitarSpec whatAlexLikes = new GuitarSpec(Builder.FENDER, null,
+				Type.ELECTRIC, null, Wood.MAHOGANY);
+
+		inv.printSearchResults(inv.search(whatAlexLikes));
+	}
 }
