@@ -1,3 +1,4 @@
+// Daniel Dubinko 20229482
 package PersonAndDate;
 
 import java.util.Objects;
@@ -21,8 +22,10 @@ public class Entity {
             System.exit(0);
         }
         this.name = entity.name;
-        this.born = entity.born;
+        this.born = new Date(entity.born);
     }
+
+    // --- Accessors (Getters) ---
 
     public String getName() {
         return this.name;
@@ -32,6 +35,23 @@ public class Entity {
         return new Date(this.born);
     }
 
+    // --- Mutators (Setters) ---
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setBirthDate(Date born) {
+        if (born == null) {
+            System.out.println("Fatal Error: Birth date cannot be null.");
+            System.exit(0);
+        }
+        this.born = new Date(born);
+    }
+
+    // --- Utility Methods ---
+
+    @Override
     public String toString() {
         return (name + ", " + "born on " + born);
     }
@@ -40,6 +60,8 @@ public class Entity {
         if (entity == null)
             return false;
 
+        // compares two Entities and if both the name and date match,
+        // then they are the same.
         boolean namesMatch = Objects.equals(this.name, entity.name);
         boolean datesMatch = Objects.equals(this.born, entity.born);
 

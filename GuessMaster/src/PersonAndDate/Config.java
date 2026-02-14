@@ -1,3 +1,4 @@
+// Daniel Dubinko 20229482
 package PersonAndDate;
 
 import java.util.concurrent.TimeUnit;
@@ -5,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 public final class Config {
     private Config() {
     }
+
     private static final int introTime = 7; // 7
     private static final int ruleTime = 15; // 15
     private static final int gameWaitTime = 2;
@@ -69,7 +71,7 @@ public final class Config {
             Oops Incorrect 🙊 🤷
             Keep Guessing!!
             """;
-    public static final String LOADING = "Loading ...";
+    public static final String LOADING = "\nLoading ...\n";
     public static final String RULES_WARNING = "Read the Rules Please. Im making you wait anyway\n";
 
     public static void ruleTime() {
