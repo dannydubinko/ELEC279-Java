@@ -9,7 +9,7 @@ public class GuessMaster {
     private Entity[] entities;
     private Scanner scanner;
 
-    // Constructor to initialize the game state
+    // Constructor to initialize the guess master object
     public GuessMaster() {
         this.numberOfCandidatesEntities = 0;
         this.entities = new Entity[10]; // Max 10 entities
@@ -64,6 +64,7 @@ public class GuessMaster {
         Date targetDate = entity.getBirthDate();
         boolean correctlyGuessed = false;
 
+        // Reprint the entity so that the user can always see it when guessing
         System.out.println("\nThe entity you're guessing is: ");
         String line = "_".repeat(name.length() + 4);
         System.out.println(line);
@@ -71,6 +72,7 @@ public class GuessMaster {
         System.out.println(line);
         System.out.println(Config.DATE_FORMAT);
 
+        // Continue running game until the entity is guessed
         while (!correctlyGuessed) {
             System.out.print("\nGuess: ");
             String dateInput = this.scanner.nextLine();
@@ -90,7 +92,7 @@ public class GuessMaster {
                 } else {
                     System.out.println(Config.LOSER);
 
-                    // Hints for time
+                    // Hints for guessing the date of the entity
                     if (targetDate.precedes(inputDate)) {
                         System.out.println("Choose an Earlier Date");
                     } else {
@@ -107,6 +109,7 @@ public class GuessMaster {
 
                     Config.gameWaitTime();
                 }
+                // catch incorrect date format message
             } catch (IllegalArgumentException e) {
                 System.out.println("\nError: " + e.getMessage());
             }

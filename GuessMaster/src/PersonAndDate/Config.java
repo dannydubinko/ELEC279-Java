@@ -77,7 +77,7 @@ public final class Config {
     public static void ruleTime() {
         try {
             TimeUnit.SECONDS.sleep(Config.ruleTime);
-            ; // 2000 milliseconds = 2 seconds
+            ;
         } catch (InterruptedException e) {
             // Handle the exception if the sleep is interrupted
             Thread.currentThread().interrupt();
@@ -87,7 +87,7 @@ public final class Config {
     public static void introTime() {
         try {
             TimeUnit.SECONDS.sleep(Config.introTime);
-            ; // 2000 milliseconds = 2 seconds
+            ;
         } catch (InterruptedException e) {
             // Handle the exception if the sleep is interrupted
             Thread.currentThread().interrupt();
@@ -97,7 +97,7 @@ public final class Config {
     public static void gameWaitTime() {
         try {
             TimeUnit.SECONDS.sleep(Config.gameWaitTime);
-            ; // 2000 milliseconds = 2 seconds
+            ;
         } catch (InterruptedException e) {
             // Handle the exception if the sleep is interrupted
             Thread.currentThread().interrupt();

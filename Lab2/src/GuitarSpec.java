@@ -1,54 +1,33 @@
-public class GuitarSpec {
-    private Builder builder;
-    private String model;
-    private Type type;
-    private Wood backWood;
-    private Wood topWood;
+public class GuitarSpec extends InstrumentSpec {
+    private int numStrings;
 
-    public GuitarSpec(Builder builder, String model, Type type, Wood topWood, Wood backWood) {
-        this.builder = builder;
-        this.model = model;
-        this.type = type;
-        this.topWood = topWood;
-        this.backWood = backWood;
+    public GuitarSpec(Builder builder, String model,
+            Type type, Wood backWood,
+            Wood topWood, int numStrings) {
+
+        super(builder, model, type, backWood, topWood);
+        this.numStrings = numStrings;
     }
 
-    public Builder getBuilder() {
-        return builder;
+    public int getNumStrings() {
+        return numStrings;
     }
 
-    public String getModel() {
-        return model;
-    }
+    @Override
+    public boolean matches(InstrumentSpec otherSpec) {
 
-    public Type getType() {
-        return type;
-    }
-
-    public Wood getBackWood() {
-        return backWood;
-    }
-
-    public Wood getTopWood() {
-        return topWood;
-    }
-
-    public boolean matches(GuitarSpec other) {
-        if (other.builder != null && other.builder != this.builder)
+        if (!super.matches(otherSpec)) {
             return false;
-        if (other.type != null && other.type != this.type)
-            return false;
+        }
 
-        if (other.topWood != null && other.topWood != this.topWood)
+        if (!(otherSpec instanceof GuitarSpec)) {
             return false;
-        if (other.backWood != null && other.backWood != this.backWood)
-            return false;
+        }
 
-        if (other.model != null) {
-            if (this.model == null)
-                return false;
-            if (!this.model.equalsIgnoreCase(other.model))
-                return false;
+        GuitarSpec spec = (GuitarSpec) otherSpec;
+
+        if (spec.numStrings != this.numStrings) {
+            return false;
         }
 
         return true;
@@ -56,6 +35,6 @@ public class GuitarSpec {
 
     @Override
     public String toString() {
-        return builder + " " + model + " " + type + " Top:" + topWood + " Back:" + backWood;
+        return builder + " " + model + " " + type + " Top:" + topWood + " Back:" + backWood + " Strings:" + numStrings;
     }
 }
